@@ -59,6 +59,7 @@ def parse(tokenList:list[str],stdlib:list[FunctionEntry]) -> Compound:
     openCompound("WORLD")
     while len(tokens) != 0:
         execHandler(tokens.pop(0))
+    print(functions)
     return treeStack[0]
 
 def handle_CLASS():
@@ -92,3 +93,6 @@ def handle_OPENSTATEMENT():
 
 def handle_CLOSESTATEMENT():
     closeCompound()
+
+def handle_PYCALL():
+    pass # TODO: handle pycalls

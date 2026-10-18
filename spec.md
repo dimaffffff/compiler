@@ -100,3 +100,9 @@ To access a field in a struct variable you have to use this syntax:
 variable_name.field_name  
 For example:  
 playerPos.y++
+
+## SECTION 8 5/7 - Pycalls
+Pycalls call python functions directly and have this syntax:  
+PYCALL function_name arg1 arg2
+For example:
+PYCALL print "hello world!";
