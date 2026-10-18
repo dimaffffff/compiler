@@ -5,7 +5,7 @@ def lex(code:str) -> list[str]:
 def lexLine(line:str) -> list[str]:
     lineTokens: list[str] = []
     running = True 
-    currentChar = 0
+    currentChar = -1
     while running:
         word: list[str] = []
         additionalToken: str|None = None
@@ -22,6 +22,16 @@ def lexLine(line:str) -> list[str]:
                         break 
                     case "\n":
                         break
+                    case "/":
+                        if line[currentChar+1] == "/":
+                            comment = True
+                            currentChar += 1
+                            while comment:
+                                currentChar += 1
+                                if line[currentChar] == "/" and line[currentChar-1] == "/":
+                                    comment = False
+                            currentChar += 1
+                            i = line[currentChar] #manual override as a hack
                     case ";":
                         additionalToken = "SEMICOLON"
                         break

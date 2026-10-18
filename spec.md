@@ -1,6 +1,6 @@
-spec stands for spectacular of course.
-This is the specification for GOOSE (Gloriously Overengineered Out of SpitE) Lang (Very creative)
-Not exhaustive but this is the bare minimum
+spec stands for spectacular of course.  
+This is the specification for GOOSE (Gloriously Overengineered Out of SpitE) Lang (Very creative)  
+Not exhaustive but this is the bare minimum  
 
 [toc]
 ## SECTION -13.4 - OOP
@@ -22,11 +22,8 @@ Leaf statements are either function calls or variable mutation.
 Lead statements must be separated with ;  
 Compound statements hold multiple statements and are defined like:  
 { INNER STATEMENTS }  
-The definition can spread across multiple lines and is not whitespace sensitive.  
-Statements may have return values by using the RETURN keyword, in that case you must declare its type like this:
-type { INNER_STATEMENTS_WITH_A_RETURN }  
-For example:  
-INT { RETURN 1; }
+The statement can spread across multiple lines and is not whitespace sensitive.  
+
 
 ## SECTION 2 - Function calls
 Function calls should have this syntax:  

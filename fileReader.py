@@ -1,8 +1,8 @@
 
 def getCode() -> str:
     return """
-
-    CLASS
+    //Comment 
+    Actually, lets make this multiline//
     FUNC INT main() {
     PRINT "Hello world!";
     RETURN 1;
