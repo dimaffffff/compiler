@@ -20,6 +20,9 @@ def lexLine(line:str) -> list[str]:
                 match i:
                     case " ":
                         break 
+                    case ",":
+                        additionalToken = "COMMA"
+                        break
                     case "\n":
                         break
                     case "/":
@@ -64,14 +67,3 @@ def lexLine(line:str) -> list[str]:
 
     return lineTokens
 
-# def getToken(word:str) -> str:
-#     mapping: dict[str,str] = {        
-#         "#DEFINE":"PREPROC_DEFINE",
-#         "#STRUCT":"PREPROC_STRUCT",
-#         "FUNC":"FUNC_DEF",
-#         "STRUCT":"STRUCT_VAR_DECL",
-#         "INT"
-# }
-#     if word in mapping.keys():
-#         return mapping[word]
-#     return f"NAME_{word}"

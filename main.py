@@ -1,5 +1,6 @@
 from fileReader import getCode
 from lexer import lex
+from standardLibraryList import getFunctionList
 import parser
 from sys import stderr
 
@@ -12,7 +13,7 @@ try:
     CODE = getCode()
     TOKENS = lex(CODE)
     print(TOKENS)
-    STAGE1 = parser.parse(TOKENS)
+    STAGE1 = parser.parse(TOKENS,getFunctionList())
     print(STAGE1)
     print("The compiler has spared you for now.\nCompilation Successful")
 except Exception as e:

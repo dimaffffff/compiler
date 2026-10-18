@@ -1,27 +1,94 @@
-from dataclasses import dataclass,field
+from headers import *
 
-@dataclass 
-class leaf:
-    name:str = "INVALID_LEAF"
-    args:list[str] = field(default_factory=list)
+tokens: list[str] = []
+treeStack: list[Compound] = []
+genName = ""
+functions: list[FunctionEntry] = []
 
-@dataclass 
-class compound:
-    name:str = "GenericCompound"
-    innerStatements:list[compound] = field(default_factory=list)
+def addFunction(entry:FunctionEntry):
+    if entry.name not in [i.name for i in functions]:
+        functions.append(entry)
+    else:
+        raise Exception(f" THE COMPILER IS HEAVILY DISAPPOINTED IN YOUR CREATIVITY WHILE NAMING FUNCTIONS\n FUNCTION {entry.name} COULD PROBABLY USE A UNIQUE NAME")
+
+def setNextGenericName(name:str):
+    global genName
+    genName = name
+
+def openCompound(name:str):
+    global genName
+    if name == "generic":
+        if genName != "":
+            name = genName
+            genName = ""
+    treeStack.append(Compound(name))
+
+def closeCompound():
+    closed = treeStack.pop(-1)
+    if len(treeStack) < 1:
+        raise Exception(" THE COMPILER WILL NOT TOLERATE EXCESS STATEMENT CLOSURES!")
+    treeStack[-1].innerStatements.append(closed)
+
+def addLeaf(leaf:Leaf):
+    treeStack[-1].innerStatements.append(leaf)
+
+def popToken() -> str:
+    return tokens.pop(0)
 
 def execHandler(name:str):
     func = globals().get(f"handle_{name}")
     if func != None and callable(func):
         _ = func()
+    elif name in [i.name for i in functions]:
+        callHandler(name)
     else:
-        raise Exception(f"\n COMPILER HAS CHOSEN VIOLENCE BECAUSE OF YOUR NEGLIGENCE WITH TOKENS!\n ERROR ON TOKEN: {name}\n UNKNOWN TOKEN")
+        raise Exception(f" COMPILER HAS CHOSEN VIOLENCE BECAUSE OF YOUR NEGLIGENCE WITH SYMBOLS!\n ERROR ON SYMBOL: {name}\n UNKNOWN SYMBOL")
 
-def handle_CLASS():
-    raise Exception(f"\n did you just try to declare a class? \n not on my watch you idiot.")
+def callHandler(name:str):
+    leaf = Leaf(name=f"call_{name}")
+    i = popToken()
+    while i != "SEMICOLON":
+        leaf.args.append(i)
+        i = popToken()
+    addLeaf(leaf)
 
-def parse(tokenList:list[str])-> list[compound|leaf]:
+def parse(tokenList:list[str],stdlib:list[FunctionEntry]) -> Compound:
+    global tokens
     tokens = tokenList
+    functions.extend(stdlib)
+    openCompound("WORLD")
     while len(tokens) != 0:
         execHandler(tokens.pop(0))
-    return []
+    return treeStack[0]
+
+def handle_CLASS():
+    raise Exception(" did you just try to declare a class? \n not on my watch you idiot.")
+
+def handle_FUNC():
+    funcReturnType = popToken()
+    funcName = popToken()
+    funcArgs = {}
+    if popToken() == "OPENPAR":
+        arg = False 
+        argType = ""
+        i = popToken()
+        while i != "CLOSEPAR":
+            if i != "COMMA":
+                if arg:
+                    funcArgs[argType] = i
+                    arg = not arg 
+                else:
+                    argType = i
+                    arg = not arg
+            i = popToken()
+    else:
+        raise Exception(f" The compiler is confused on the arguments of the function {funcName}")
+    setNextGenericName(f"func_{funcName}")
+    entry = FunctionEntry(name=funcName,args=funcArgs,returnType=funcReturnType)
+    addFunction(entry)
+
+def handle_OPENSTATEMENT():
+    openCompound("generic")
+
+def handle_CLOSESTATEMENT():
+    closeCompound()
