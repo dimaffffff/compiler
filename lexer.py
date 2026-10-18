@@ -20,6 +20,8 @@ def lexLine(line:str) -> list[str]:
                 match i:
                     case " ":
                         break 
+                    case "\n":
+                        break
                     case ";":
                         additionalToken = "SEMICOLON"
                         break

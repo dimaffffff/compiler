@@ -1,4 +1,6 @@
-spec stands for SPECTACULAR
+spec stands for spectacular of course.
+This is the specification for GOOSE (Gloriously Overengineered Out of SpitE) Lang (Very creative)
+Not exhaustive but this is the bare minimum
 
 [toc]
 ## SECTION -13.4 - OOP
@@ -41,8 +43,8 @@ Functions have a list of arguments, a return type, and a compound statement, the
 FUNC return_type function_name (arg1,arg2) { STATEMENTS }  
 For example:  
 FUNC FLOAT calculateArea (width,height) {  
-FLOAT area = width * height  
-RETURN area  
+FLOAT area = width * height;
+RETURN area;
 }  
 
 ### SCOPE
